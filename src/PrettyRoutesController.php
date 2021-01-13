@@ -17,6 +17,9 @@ class PrettyRoutesController {
         };
 
         $routes = collect(Route::getRoutes());
+        $routes = $routes->sort(function ($a, $b) {
+            return $a->uri() > $b->uri() ? 1 : -1;
+        });
 
         foreach (config('pretty-routes.hide_matching') as $regex) {
             $routes = $routes->filter(function ($value, $key) use ($regex) {
